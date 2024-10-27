@@ -1,7 +1,6 @@
+## Part 2: Responses and Solutions
 
-## Parte 2: Respostas e Soluções
-
-### 1. Configuração do Deployment e HPA
+### 1. Deployment, service and HPA Configuration
 
 - **Deployment `deployment.yaml`**:
   ```yaml
@@ -19,21 +18,22 @@
   ```
 
 
-### 2. Teste de Carga para Escala para Cima
+### 2. Load Testing for Scaling Up
 
-- Executamos um pod temporário para gerar carga de CPU no Deployment `ascale-deploy`:
+- We ran a temporary pod to generate CPU load on the `ascale-deploy` Deployment:
   ```bash
   kubectl run -i --tty load-generator --rm --image=busybox:1.28 --restart=Never -- /bin/sh -c "while sleep 0.01; do wget -q -O- http://nginx-service; done"
   ```
 
-- Observamos o HPA aumentar as réplicas em resposta à carga com o comando:
+- We observed the HPA scaling up replicas in response to the load using:
   ```bash
   kubectl get hpa nginx-autoscaler --watch
   ```
 
-### 3. Ajuste da Estabilização de Escala para Baixo
+### 3. Scale Down Stabilization Adjustment
 
-- Quando a carga foi removida, observamos que o HPA levou mais tempo para reduzir as réplicas. Para resolver isso, ajustamos a configuração de estabilização do HPA:
+- When the load was removed, we noticed that the HPA took some time to scale down. To resolve this, we adjusted the HPA stabilization configuration:
+
   ```yaml
   spec:
     behavior:
@@ -45,13 +45,13 @@
           periodSeconds: 60
   ```
 
-- Após esse ajuste, o HPA respondeu mais rapidamente à queda na carga, reduzindo o número de réplicas conforme esperado.
+- After this adjustment, the HPA responded faster to the drop in load, reducing the number of replicas as expected.
 
-### 4. Resultados Observados
+### 4. Observed Results
 
-- **Escala para Cima**: O HPA aumentou o número de réplicas quando a carga excedeu 50% de utilização de CPU.
-- **Escala para Baixo**: Após o ajuste de estabilização, o HPA diminuiu rapidamente o número de réplicas quando a carga foi removida.
+- **Scaling Up**: The HPA increased the number of replicas when the load exceeded 50% CPU utilization.
+- **Scaling Down**: After the stabilization adjustment, the HPA quickly decreased the replicas when the load was removed.
 
 ---
 
-Esse documento detalha o processo completo, desde a configuração inicial até a execução de testes e ajustes no HPA. Esse exercício é um excelente exemplo de como configurar e otimizar o HPA no Kubernetes usando o Metrics Server.
+This document outlines the complete process, from initial setup to testing and fine-tuning the HPA. This exercise is an excellent example of how to configure and optimize HPA in Kubernetes using the Metrics Server.
