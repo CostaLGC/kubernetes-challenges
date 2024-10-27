@@ -8,7 +8,7 @@ Use o comando abaixo para abrir o Deployment do Metrics Server para edição:
 ```
 kubectl edit deployment metrics-server -n kube-system
 ```
-Localize a seção spec.template.spec.containers, onde o contêiner metrics-server está configurado. Dentro da chave args, adicione as opções necessárias para desativar a verificação TLS e definir o tipo de endereço do Kubelet.
+Localize a seção ``spec.template.spec.containers``, onde o contêiner metrics-server está configurado. Dentro da chave args, adicione as opções necessárias para desativar a verificação TLS e definir o tipo de endereço do Kubelet.
 
 Adicione os seguintes argumentos na seção args do contêiner metrics-server:
 
