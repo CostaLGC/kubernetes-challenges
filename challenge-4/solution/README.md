@@ -1,4 +1,4 @@
-## Part 2: Responses and Solutions
+## Part 2: Apply and Solutions
 
 ### 1. Deployment, service and HPA Configuration
 
