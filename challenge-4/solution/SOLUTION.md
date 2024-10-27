@@ -5,52 +5,12 @@
 
 - **Deployment `ascale-deploy`**:
   ```yaml
-  apiVersion: apps/v1
-  kind: Deployment
-  metadata:
-    name: ascale-deploy
-  spec:
-    replicas: 1
-    selector:
-      matchLabels:
-        app: nginx
-    template:
-      metadata:
-        labels:
-          app: nginx
-      spec:
-        containers:
-        - name: nginx
-          image: nginx:1.14.2
-          resources:
-            requests:
-              cpu: "50m"
-            limits:
-              cpu: "100m"
-          ports:
-          - containerPort: 80
+ kubectl apply -f deployment.yaml
   ```
 
 - **Horizontal Pod Autoscaler (HPA)**:
   ```yaml
-  apiVersion: autoscaling/v2
-  kind: HorizontalPodAutoscaler
-  metadata:
-    name: nginx-autoscaler
-  spec:
-    scaleTargetRef:
-      apiVersion: apps/v1
-      kind: Deployment
-      name: ascale-deploy
-    minReplicas: 1
-    maxReplicas: 5
-    metrics:
-    - type: Resource
-      resource:
-        name: cpu
-        target:
-          type: Utilization
-          averageUtilization: 50
+   kubectl apply -f apply.yaml
   ```
 
 ### 2. Instalação e Configuração do Metrics Server
