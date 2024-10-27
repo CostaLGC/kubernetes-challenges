@@ -1,4 +1,4 @@
-Para configurar os parâmetros do Metrics Server (como --kubelet-insecure-tls e --kubelet-preferred-address-types), você precisa editar o Deployment do Metrics Server diretamente no Kubernetes.
+Para configurar os parâmetros do Metrics Server (como ``--kubelet-insecure-tls e --kubelet-preferred-address-types``), você precisa editar o Deployment do Metrics Server diretamente no Kubernetes.
 
 Aqui estão os passos:
 
