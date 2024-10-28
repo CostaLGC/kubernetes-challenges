@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment-1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:latest
+        # securityContext:
+          # runAsUser: 1001
+          # readOnlyRootFilesystem: true  # Remover esta linha para permitir gravação no sistema de arquivos
+        ports:
+        - containerPort: 8080
+        volumeMounts:
+        - mountPath: /volume1
+          name: volume1
+        - mountPath: /data
+          name: pv
+        - mountPath: /var/cache/nginx
+          name: cache-volume
+        - mountPath: /etc/nginx/conf.d  # Monta o ConfigMap
+          name: nginx-config-volume
+          readOnly: true
+      volumes:
+      - name: volume1
+        emptyDir:
+          sizeLimit: 500Mi
+      - name: pv
+        persistentVolumeClaim:
+          claimName: pvc
+      - name: cache-volume
+        emptyDir: {}
+      - name: nginx-config-volume
+        configMap:
+          name: nginx-config
